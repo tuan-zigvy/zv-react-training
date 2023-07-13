@@ -1,6 +1,7 @@
 # Training 2 - Basic React: React State, Props and Ref
 
 ## Overview
+
 - What is a React state?
 - When to use state?
 - What is a properties (or props) in React?
@@ -12,6 +13,7 @@
 - Basic usage of `lodash`
 
 ## Goal
+
 - Understanding `state` and `props` in React
 - Able to tell the difference between `state` and `props`
 - Understanding when to use `state` and `props`
@@ -23,19 +25,24 @@
 - Able to bebugging with React Devtools
 
 ## Plan
+
 - One training/reading section
 - One practice section with the given task below
 
 ## Reading (Optional)
+
 - Fullstack React - Part 1
 - From **Making Product Data-driven** (p.27) to **Methodology review** (p.114)
 
-## Tasks and Requimenets
+## Tasks and Requirements
+
 - Task 1
+
   - Create a simple modal using React state
   - Source code must be stored in `Training2/src/task1` folder
 
 - Task 2
+
   - Create a modal that will render its children
     ```jsx
     <Modal>
@@ -46,7 +53,7 @@
   - There is a button to close the modal from the children component
   - Using `state` and `props` to complete this task
   - Source code must be stored in `Training2/src/task2` folder
-  - *You must implement this modal by your own. No library is allowed*
+  - _You must implement this modal by your own. No library is allowed_
 
 - Task 3
   - Given an input that allow a user to enter a number and a button with `Start` label
@@ -60,5 +67,6 @@
   - Source code must be stored in `Training2/src/task3` folder
 
 ## Test
+
 - Popup test with 10-15 questions about React
 - You will need to achieve at least 60% of total score to pass this test
