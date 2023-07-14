@@ -1,45 +1,72 @@
-# Training 6 - Advanced React: Redux Middleware
+# Training 5 - Advanced React: Redux and React Redux
 
 ## Overview
-- Setup a middleware for Redux
-- Using Redux Saga middleware for side-effect handling, calling API, and background job*
-- Redux persist for persisting data
-- Redux devtool extension middleware for debugging redux with Redux Devtools Ext
-- Debugging Redux with Redux Devtools Ext
+
+- Introduction to fundamental of functional programming
+  - Immutable
+  - What is a side effect?
+  - Benefit of functional programming
+  - The role of functional programming in Redux architecture
+  - Using JS functional functions: `map`, `filter`, `reduce`, `some`, `every`
+- Introduction to Redux architecture
+- Understanding Redux architecture data flow (Uni-directional data flow)
+  - What is a redux action?
+  - What is a reducer?
+  - What is a action dispatcher?
+- Why do we need to use Redux?
+- Connecting Redux with React using React Redux
+- Redux state vs React state
 
 ## Goal
-- Understanding the role of Redux middlware
-- Can config redux persist, redux saga by yourself
-- Able to config another redux middleware without any problems
-- Understanding and able to debug Redux state with Redux Devtools Ext
+
+- Understanding basic of functional programming
+- Why do reducer in redux is a pure function?
+- The important of pure function
+- Fluently using `map`, `filter`, `reduce`, `some`, `every`
+- Understanding the Redux architecture
+- Building an application using mixed React state and Redux state
 
 ## Plan
-- One pair programming section
 
+- One Redux training section with fundamental functional programming concept
+- One pair programming section about Redux
 
 ## Reading (Optional)
-- [Redux persist](https://github.com/rt2zz/redux-persist)
-- [Redux saga](https://github.com/redux-saga/redux-saga)
+
+- Fullstack React - Part 2
+- From Redux (p.452) to Asynchronicity and server communication (p.568)
+- Lecture notes
 
 ## Tasks and Requimenets
-- Task 1:
-  - Clone Task 2 in the previous training and using redux-saga
-  - Once they've logged in and refresh the page, the user should be stayed as logged in
-- Task 2:
-  - Implement task submission
-  - Please review this image
-  ![submit](https://user-images.githubusercontent.com/47735787/122714235-2fdc7500-d291-11eb-8660-9b84a7229634.png)
-  - The app can be worked offline or online, the user can create a task without submitting immediately, every task created should get status: Draft
-  - "Draft" means "I still want to edit and don't want to submit yet"
-  - "Ready" means "I finalized the task and want to move it to Submit Queue"
-  - Submit Queue only working when the network status is Online, otherwise the Submit Queue should be pending until network status become Online
-  - That's meaning in the online network, every ready task will be submitted by Submit Queue automatically, otherwise ready tasks should still be Ready until network status become Online
-  - When Submit Queue submit task one by one in Online mode, the status change to Submitting automatically
-  - We only have an API to submit the task to the backend, we will mock it by yield delay(2000) and random 50-50 submit successfully for failed
-  - User can click on the status to manually change status, please review the dashed arrow to know what status can be manually updated and the next status of them
-  - Move the network status listener to redux-saga using even channel
 
+Task 1:
 
+- Building a to-do management application using Redux, Backend mock API `../templates/todos-mock-api`
+- Implement CRUD todo
+- Implement search by name
+- Implement add filter Show Completed? to turn on/off load completed todos or not
+- Reducer, actions must be designed well
+
+Task 2:
+
+- Building a simple dashboard using Redux, Backend mock API `../templates/login-mock-api`
+- Please review the dashboard layout:
+
+![dashboard-layout](https://user-images.githubusercontent.com/47735787/122709801-32d36780-d289-11eb-88e0-2aa479a98485.jpg)
+
+- Requirements:
+  - Using react-router config routes like that
+  - You must reuse stucture routes & layout components if these pages have the same layout
+  - You must reuse the user detail component
+  - If the user logged -> `/login` -> redirect to `/app`
+  - If the user have not logged -> `/app/*` -> redirect to `/login`
+  - If the user go to the url path which != `/login` or != `/app/*` then check user logged or not, logged redirect to `/app`, not logged redirect to `/login`
+  - Whenever call to backend API and get the 403 status, we should add notification "You have not permission to do it" and redirect to `/app` (You can login with User role andcall **GET** `/users` to get this status)
+  - If user go to `/app/users/:id` by enter url into browser address and the id is invalid, add notification "User is not found" and redirect to "/app/users"
+  - Nice to use redux saga in task
+  - Reducer, actions must be designed well
 
 ## Test
-N/A
+
+- Popup test with 10-15 questions about React and Redux
+- You will need to achieve at least 70% of total score to pass this test

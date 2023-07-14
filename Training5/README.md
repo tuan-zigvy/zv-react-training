@@ -1,7 +1,8 @@
 # Training 5 - Advanced React: Redux and React Redux
 
 ## Overview
-- Introduction to fundemental of functional programming
+
+- Introduction to fundamental of functional programming
   - Immutable
   - What is a side effect?
   - Benefit of functional programming
@@ -17,6 +18,7 @@
 - Redux state vs React state
 
 ## Goal
+
 - Understanding basic of functional programming
 - Why do reducer in redux is a pure function?
 - The important of pure function
@@ -25,18 +27,20 @@
 - Building an application using mixed React state and Redux state
 
 ## Plan
+
 - One Redux training section with fundamental functional programming concept
 - One pair programming section about Redux
 
-
 ## Reading (Optional)
+
 - Fullstack React - Part 2
 - From Redux (p.452) to Asynchronicity and server communication (p.568)
 - Lecture notes
 
 ## Tasks and Requimenets
 
-Task 1: 
+Task 1:
+
 - Building a to-do management application using Redux, Backend mock API `../templates/todos-mock-api`
 - Implement CRUD todo
 - Implement search by name
@@ -44,10 +48,12 @@ Task 1:
 - Reducer, actions must be designed well
 
 Task 2:
+
 - Building a simple dashboard using Redux, Backend mock API `../templates/login-mock-api`
 - Please review the dashboard layout:
 
 ![dashboard-layout](https://user-images.githubusercontent.com/47735787/122709801-32d36780-d289-11eb-88e0-2aa479a98485.jpg)
+
 - Requirements:
   - Using react-router config routes like that
   - You must reuse stucture routes & layout components if these pages have the same layout
@@ -61,5 +67,6 @@ Task 2:
   - Reducer, actions must be designed well
 
 ## Test
+
 - Popup test with 10-15 questions about React and Redux
 - You will need to achieve at least 70% of total score to pass this test
