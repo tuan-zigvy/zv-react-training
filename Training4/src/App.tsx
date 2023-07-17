@@ -6,11 +6,11 @@ import { debounce } from './utils/utils';
 function App() {
   const [value, setValue] = React.useState<string>('');
 
-  function handelChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);
   }
 
-  const tDebounce = debounce(handelChange, 200);
+  const tDebounce = debounce(handleChange, 200);
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', rowGap: 12 }}>
