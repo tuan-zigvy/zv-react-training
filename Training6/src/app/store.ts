@@ -19,11 +19,13 @@ import {
 const sagaMiddleware = createSagaMiddleware();
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
+import networkReducer from '../reducer/network/networkSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   task: todoReducer,
+  network: networkReducer,
 });
 
 const persistConfig: PersistConfig<any> = {

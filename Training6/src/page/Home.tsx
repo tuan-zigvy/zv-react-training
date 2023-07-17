@@ -18,12 +18,16 @@ function HomePage() {
   const [isOnline, setIsOnline] = React.useState<boolean>(Boolean(navigator.onLine));
   const [isSuccess, setIsSuccess] = React.useState<boolean>(false);
   const { tasks, tasksPending } = useAppSelector((state) => state.task, shallowEqual);
+  const statusNetWork = useAppSelector(
+    (state) => state.network.statusNetWork,
+    shallowEqual
+  );
 
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    isOnline && dispatch(taskAction.getTasksPending());
-  }, [isOnline]);
+    statusNetWork && dispatch(taskAction.getTasksPending());
+  }, [statusNetWork]);
 
   const handelUpdateStatus = (i: number) => {
     dispatch(taskAction.updateTaskPending({ ...tasks[i], status: true }));
@@ -38,12 +42,12 @@ function HomePage() {
   };
 
   function handelSearchName(e: React.ChangeEvent<HTMLInputElement>) {
-    isOnline && dispatch(taskAction.getTasksPending({ name: e.target.value }));
+    statusNetWork && dispatch(taskAction.getTasksPending({ name: e.target.value }));
   }
 
   function handelSearchSuccess() {
     setIsSuccess(!isSuccess);
-    isOnline && dispatch(taskAction.getTasksPending({ status: !isSuccess }));
+    statusNetWork && dispatch(taskAction.getTasksPending({ status: !isSuccess }));
   }
 
   const tDebounce = debounce(handelSearchName, 600);
@@ -51,42 +55,33 @@ function HomePage() {
   const handelReady = (index: number | null) => {
     if (typeof index === 'number') {
       dispatch(taskAction.updateTemplateTasksDraft([tasksPending[index]]));
-      isOnline && dispatch(taskAction.createTasksPending([tasksPending[index].name]));
+      statusNetWork &&
+        dispatch(taskAction.createTasksPending([tasksPending[index].name]));
     } else {
       const taskDraft = tasksPending.filter((task) => task.status === 'Draft');
       dispatch(taskAction.updateTemplateTasksDraft(taskDraft));
-      isOnline &&
+      statusNetWork &&
         dispatch(taskAction.createTasksPending(taskDraft.map((task) => task.name)));
     }
   };
 
   React.useEffect(() => {
-    const handelCheckOnline = (ev: Event) => {
-      if (ev.type === 'online') {
-        setIsOnline(true);
-        const taskReady = tasksPending.filter((task) => task.status === 'Ready');
-        if (taskReady.length > 0)
-          dispatch(taskAction.createTasksPending(taskReady.map((task) => task.name)));
-      }
+    if (statusNetWork) {
+      setIsOnline(true);
+      const taskReady = tasksPending.filter((task) => task.status === 'Ready');
+      if (taskReady.length > 0)
+        dispatch(taskAction.createTasksPending(taskReady.map((task) => task.name)));
+    }
 
-      if (ev.type === 'offline') {
-        setIsOnline(false);
-        dispatch(taskAction.deleteTasksIsOffline());
-      }
-    };
-
-    window.addEventListener('offline', handelCheckOnline);
-    window.addEventListener('online', handelCheckOnline);
-
-    return () => {
-      window.removeEventListener('offline', handelCheckOnline);
-      window.removeEventListener('online', handelCheckOnline);
-    };
-  }, []);
+    if (!statusNetWork) {
+      setIsOnline(false);
+      dispatch(taskAction.deleteTasksIsOffline());
+    }
+  }, [statusNetWork]);
 
   return (
     <div style={style}>
-      <p>{isOnline ? 'Online' : 'Offline'}</p>
+      <p>{statusNetWork ? 'Online' : 'Offline'}</p>
       <div>
         {tasksPending.length > 0 &&
           tasksPending.map((task, i) => (
