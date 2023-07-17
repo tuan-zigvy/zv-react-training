@@ -1,54 +1,57 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 function Game() {
-  const [valueCountdown, setValueCountdown] = React.useState<number>(0);
+  const [valueCountdown, setValueCountdown] = React.useState<number | string>(0);
   const [isStart, setIsStart] = React.useState<boolean>(false);
   const [errorMessage, setErrorMessage] = React.useState<string>('');
 
   const textBtn = isStart ? 'stop' : 'start';
 
   const handelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    if (!Number.isNaN(value) && value > 0) {
-      setErrorMessage('');
-      setValueCountdown(value);
-    }
-    if (value <= 0) setErrorMessage('Number must be great than');
+    setValueCountdown(e.target.value);
   };
 
   const handelButton = () => {
-    if (valueCountdown > 0) return setIsStart(!isStart);
-    if (valueCountdown === 0) return setIsStart(false);
+    const value = Number(valueCountdown);
+
+    if (!value) setErrorMessage('Invalid input. Must be a number');
+    if (value <= 0) setErrorMessage('Number must be greater than 0');
+
+    if (value > 0) {
+      setErrorMessage('');
+      return setIsStart(!isStart);
+    }
   };
 
-  React.useEffect(() => {
-    let timeOut: NodeJS.Timer | null = null;
-    if (valueCountdown < 0) return;
+  const intervalRef = useRef<NodeJS.Timer | null>(null);
 
-    if (isStart && !timeOut) {
-      timeOut = setInterval(() => {
-        if (valueCountdown === 1 && timeOut) {
-          setIsStart(false);
-          clearInterval(timeOut);
-          setValueCountdown(valueCountdown - 1);
-        } else {
-          setValueCountdown(valueCountdown - 1);
-        }
+  React.useEffect(() => {
+    if (isStart && !intervalRef.current) {
+      intervalRef.current = setInterval(function () {
+        setValueCountdown((prev) => {
+          if (Number(prev) === 1 && intervalRef.current) {
+            setIsStart(false);
+
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+
+            return Number(prev) - 1;
+          }
+
+          return Number(prev) - 1;
+        });
       }, 1000);
     }
-
     return () => {
-      if (timeOut) clearTimeout(timeOut);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
-  }, [isStart, valueCountdown]);
+  }, [isStart]);
 
   return (
     <div>
-      <input
-        type='number'
-        value={valueCountdown === 0 ? '' : valueCountdown}
-        onChange={handelInput}
-      />
+      <input value={valueCountdown === 0 ? '' : valueCountdown} onChange={handelInput} />
       <button onClick={handelButton}>{textBtn}</button>
       <p>{valueCountdown}</p>
       {errorMessage && <p>{errorMessage}</p>}
