@@ -23,13 +23,13 @@ function HomePage() {
     dispatch(todoAction.getTodosPending());
   }, []);
 
-  const handelCompleted = (i: number) => {
+  const handleCompleted = (i: number) => {
     dispatch(
       todoAction.updateTodoPending({ ...todos[i], completed: !todos[i].completed })
     );
   };
 
-  const handelSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (valueCreateTodo) {
       setValueCreateTodo('');
@@ -37,22 +37,29 @@ function HomePage() {
     }
   };
 
-  function handelSearchName(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleSearchName(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(todoAction.getTodosPending({ name: e.target.value }));
   }
 
-  function handelSearchCompleted() {
+  function handleSearchCompleted() {
     setIsCompleted(!isCompleted);
     dispatch(todoAction.getTodosPending({ completed: !isCompleted }));
   }
 
-  const tDebounce = debounce(handelSearchName, 600);
+  const tDebounce = debounce(handleSearchName, 600);
+
+  const handleDelete = (id: string) => {
+    dispatch(todoAction.deleteTodoPending(id));
+  };
+  const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValueCreateTodo(e.target.value);
+  };
 
   return (
     <div style={style}>
       <div>
         <input placeholder='Search todo' onChange={tDebounce} />
-        <input type='checkbox' checked={isCompleted} onChange={handelSearchCompleted} />
+        <input type='checkbox' checked={isCompleted} onChange={handleSearchCompleted} />
         <label>Completed</label>
       </div>
       {todos.length > 0 &&
@@ -62,24 +69,22 @@ function HomePage() {
             <input
               type='checkbox'
               checked={todo.completed}
-              onChange={() => handelCompleted(i)}
+              onChange={() => handleCompleted(i)}
             />
 
             <div
               style={{ width: 40, paddingTop: '15px', paddingLeft: 15 }}
-              onClick={() => dispatch(todoAction.deleteTodoPending(todo.id))}
+              onClick={() => handleDelete(todo.id)}
             >
               <MdClose />
             </div>
           </div>
         ))}
-      <form onSubmit={handelSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           placeholder='input task'
           value={valueCreateTodo}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setValueCreateTodo(e.target.value)
-          }
+          onChange={handleChangeValue}
         />
       </form>
     </div>

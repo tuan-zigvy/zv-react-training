@@ -18,7 +18,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handelSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const login = validDate.parse({ email: inputEmail, password: inputPassword });
     dispatch(authAction.signInPending(login));
@@ -28,6 +28,12 @@ function Login() {
     const token = decoded(Cookies.get('token'));
     if (isSignIn || token) navigate('/');
   }, [isSignIn]);
+
+  const handleChangePw = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setInputEmail(event.target.value);
+
+  const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setInputPassword(event.target.value);
 
   return (
     <div
@@ -40,15 +46,8 @@ function Login() {
         justifyContent: 'center',
       }}
     >
-      <form onSubmit={handelSubmit}>
-        <input
-          name='email'
-          type='text'
-          value={inputEmail}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setInputEmail(event.target.value)
-          }
-        />
+      <form onSubmit={handleSubmit}>
+        <input name='email' type='text' value={inputEmail} onChange={handleChangeEmail} />
         <div style={{ position: 'relative' }}>
           <div
             onClick={() => setIsShowPw(!isShowPw)}
@@ -60,9 +59,7 @@ function Login() {
             name='password'
             type={isShowPw ? 'text' : 'password'}
             value={inputPassword}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setInputPassword(event.target.value)
-            }
+            onChange={handleChangePw}
           />
         </div>
         <button type='submit'> Login</button>

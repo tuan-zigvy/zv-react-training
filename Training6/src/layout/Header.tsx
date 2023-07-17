@@ -6,7 +6,7 @@ function Header() {
   const isSignIn = useAppSelector((state) => state.auth.isSignIn);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const handelClick = () => {
+  const handleClick = () => {
     if (isSignIn) {
       dispatch(authAction.signOutPending());
     }
@@ -16,12 +16,16 @@ function Header() {
     if (!isSignIn) navigate('/');
   }, [isSignIn]);
 
+  const handleNavigate = (value: string) => {
+    navigate(value);
+  };
+
   return (
     <div style={{ display: 'flex', columnGap: 14 }}>
-      {isSignIn && <button onClick={handelClick}> Log Out</button>}
-      <button onClick={() => navigate('/')}>Home</button>
-      <button onClick={() => navigate('/users')}>Users</button>
-      <button onClick={() => navigate('/info')}>Info</button>
+      {isSignIn && <button onClick={handleClick}> Log Out</button>}
+      <button onClick={() => handleNavigate('/')}>Home</button>
+      <button onClick={() => handleNavigate('/users')}>Users</button>
+      <button onClick={() => handleNavigate('/info')}>Info</button>
     </div>
   );
 }

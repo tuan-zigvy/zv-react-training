@@ -26,7 +26,7 @@ function Users() {
       </>
     );
 
-  function handelClickTarget(index: number) {
+  function handleClickTarget(index: number) {
     if (users.length > 0) dispatch(userAction.getTargetUserSuccess(users[index].id));
   }
 
@@ -36,7 +36,7 @@ function Users() {
         {users.length > 0 ? (
           users.map((user, i) => (
             <div key={i}>
-              <button style={{ width: 200 }} onClick={() => handelClickTarget(i)}>
+              <button style={{ width: 200 }} onClick={() => handleClickTarget(i)}>
                 <Link to={`${user.id}`}>
                   <h4>{user.fullName}</h4>
                 </Link>
