@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 function Game() {
   const [valueCountdown, setValueCountdown] = React.useState<number | string>(0);
@@ -23,28 +23,27 @@ function Game() {
     }
   };
 
-  const intervalRef = useRef<NodeJS.Timer | null>(null);
-
   React.useEffect(() => {
-    if (isStart && !intervalRef.current) {
-      intervalRef.current = setInterval(function () {
-        setValueCountdown((prev) => {
-          if (Number(prev) === 1 && intervalRef.current) {
-            setIsStart(false);
+    let intervalTime: ReturnType<typeof setInterval> | null = null;
 
-            clearInterval(intervalRef.current);
-            intervalRef.current = null;
+    const countdown = () => {
+      setValueCountdown((prev) => {
+        if (Number(prev) === 1 && intervalTime) {
+          setIsStart(false);
+          clearInterval(intervalTime);
+          intervalTime = null;
+        }
+        return Number(prev) - 1;
+      });
+    };
 
-            return Number(prev) - 1;
-          }
-
-          return Number(prev) - 1;
-        });
-      }, 1000);
+    if (isStart) {
+      intervalTime = setInterval(countdown, 1000);
     }
+
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+      if (intervalTime) {
+        clearInterval(intervalTime);
       }
     };
   }, [isStart]);

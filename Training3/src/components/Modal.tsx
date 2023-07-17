@@ -46,18 +46,17 @@ function Modal({
   isHaveButton?: boolean;
   other?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 }) {
+  function handelClose() {
+    setOpen(false);
+  }
   if (!isOpen) return undefined;
+
   return (
     <div>
-      <div
-        style={{ ...styleModal }}
-        {...other}
-        className='1'
-        onClick={() => setOpen(false)}
-      ></div>
+      <div style={{ ...styleModal }} {...other} className='1' onClick={handelClose}></div>
       <div style={{ ...styleContainer, ...sx }} className='2'>
         {children}
-        <button onClick={() => setOpen(false)} hidden={isHaveButton}>
+        <button onClick={handelClose} hidden={isHaveButton}>
           Close
         </button>
       </div>

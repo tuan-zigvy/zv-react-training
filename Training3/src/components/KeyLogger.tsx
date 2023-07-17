@@ -6,18 +6,13 @@ function KeyLogger({
   setValue: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
   React.useEffect(() => {
-    const init = () => {
-      const handleKeyDown = (evt: KeyboardEvent) => {
-        setValue((e) => e.concat(evt.key));
-      };
-
-      window.addEventListener('keydown', handleKeyDown);
-
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-      };
+    const handleKeyDown = (evt: KeyboardEvent) => {
+      setValue((e) => e.concat(evt.key));
     };
-    return init();
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   return (

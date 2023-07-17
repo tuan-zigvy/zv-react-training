@@ -5,6 +5,7 @@ import KeyLogger from './components/KeyLogger';
 function App() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string[]>([]);
+
   useEffect(() => {
     console.log(value);
   }, [value]);

@@ -24,7 +24,7 @@ function Title() {
 
   if (query.isLoading) return <div>Loading ...</div>;
 
-  if (query.isLoading) return <div>Server disconnect</div>;
+  if (query.isError) return <div>Server disconnect</div>;
 
   return (
     <div>
