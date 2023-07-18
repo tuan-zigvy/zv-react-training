@@ -15,11 +15,9 @@ const decoded = (token: string | undefined) => {
   return decode;
 };
 
-const setHeaders = (isDelete = false) => {
+const setHeaders = (isDelete = false, token = '') => {
   if (!isDelete) {
-    userService.defaults.headers['Authorization'] = `Bearer ${
-      Cookie.get('token') as string
-    }`;
+    userService.defaults.headers['Authorization'] = `Bearer ${token}`;
   } else {
     delete userService.defaults.headers['Authorization'];
   }

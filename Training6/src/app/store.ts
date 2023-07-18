@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
 const persistConfig: PersistConfig<any> = {
   key: 'root',
   storage,
-  whitelist: ['task'],
+  whitelist: ['task', 'auth'],
   stateReconciler: autoMergeLevel2,
 };
 

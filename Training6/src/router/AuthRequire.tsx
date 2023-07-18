@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Cookies from 'js-cookie';
 import { useAppDispatch, useAppSelector } from '../app/store';
 import { shallowEqual } from 'react-redux';
 import Loading from '../components/Loading';
@@ -9,22 +8,25 @@ import { userAction } from '../reducer/user/userSlice';
 import { authAction } from '../reducer/auth/authSlice';
 
 function AuthRequire({ children }: { children: React.ReactNode | React.ReactNode[] }) {
-  const payLoadToken = decoded(Cookies.get('token'));
-  const { isSignIn, isInitialState } = useAppSelector(
+  const { isSignIn, isInitialState, token } = useAppSelector(
     (state) => ({
       isSignIn: state.auth.isSignIn,
       isInitialState: state.auth.isInitialState,
+      token: state.auth.token,
     }),
     shallowEqual
   );
+
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const payLoadToken = decoded(token);
+
   useEffect(() => {
     if (payLoadToken) {
-      setHeaders();
+      setHeaders(false, token);
       dispatch(userAction.getMePending(payLoadToken.id));
     } else {
-      dispatch(authAction.setIsInitialState());
+      dispatch(authAction.signOutPending());
     }
   }, []);
 
