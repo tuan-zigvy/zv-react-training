@@ -7,11 +7,11 @@ function Game() {
 
   const textBtn = isStart ? 'stop' : 'start';
 
-  const handelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValueCountdown(e.target.value);
   };
 
-  const handelButton = () => {
+  const handleButton = () => {
     const value = Number(valueCountdown);
 
     if (!value) setErrorMessage('Invalid input. Must be a number');
@@ -50,8 +50,8 @@ function Game() {
 
   return (
     <div>
-      <input value={valueCountdown === 0 ? '' : valueCountdown} onChange={handelInput} />
-      <button onClick={handelButton}>{textBtn}</button>
+      <input value={valueCountdown === 0 ? '' : valueCountdown} onChange={handleInput} />
+      <button onClick={handleButton}>{textBtn}</button>
       <p>{valueCountdown}</p>
       {errorMessage && <p>{errorMessage}</p>}
     </div>

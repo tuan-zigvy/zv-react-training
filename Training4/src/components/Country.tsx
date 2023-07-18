@@ -1,20 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import countryService from '../app/country_server';
-
-interface IName {
-  common: string;
-  official: string;
-}
-
-interface IDataCountry {
-  name: IName;
-  region: string;
-}
-
-export function fetchCountry(value = '') {
-  if (!value) return countryService.get<IDataCountry[]>('/all');
-  return countryService.get<IDataCountry[]>(`/name/${value}`);
-}
+import { IDataCountry, fetchCountry } from '../app/api';
 
 function Country({ value }: { value: string }) {
   const { data, isLoading, isError } = useQuery({
@@ -30,7 +15,10 @@ function Country({ value }: { value: string }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', rowGap: 12 }}>
       {(data.data as IDataCountry[]).map((country) => (
-        <div style={{ border: '1px solid black' }}>
+        <div
+          style={{ border: '1px solid black' }}
+          key={country.name.official || country.name.common}
+        >
           <p>Common name: {country.name.common}</p>
           <p>Official: {country.name.official}</p>
           <p>region: {country.region}</p>

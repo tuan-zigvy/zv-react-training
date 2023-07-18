@@ -1,26 +1,18 @@
-import React from 'react';
-import jokeService from '../app/joke_server';
+import { useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { throttle } from '../utils/utils';
-
-interface IDataJoke {
-  type: string;
-  setup: string;
-  punchline: string;
-}
-
-function fetchJoker() {
-  return jokeService.get<IDataJoke>('/random');
-}
+import { fetchJoker } from '../app/api';
 
 function Title() {
   const query = useQuery({ queryKey: ['joker'], queryFn: () => fetchJoker() });
 
-  const handelRandom = () => {
+  const handleRandom = () => {
     query.refetch();
   };
 
-  const tDebounceRef = React.useRef(throttle(handelRandom, 800));
+  const tDebounce = useCallback(throttle(handleRandom, 1000), []);
+
+  // const tDebounceRef = throttle(handleRandom, 800);
 
   if (query.isLoading) return <div>Loading ...</div>;
 
@@ -29,7 +21,7 @@ function Title() {
   return (
     <div>
       <p>{JSON.stringify(query.data?.data)}</p>
-      <button onClick={tDebounceRef.current}>random</button>
+      <button onClick={tDebounce}>random</button>
     </div>
   );
 }
