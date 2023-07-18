@@ -66,10 +66,13 @@ function* watchSignInFlow() {
       const action: PayloadAction<ILogin> = yield take(authAction.signInPending.type);
       yield call(handleSignIn, action);
     }
+    const payloadTokenAfterSign = decoded(Cookies.get('token'));
 
-    yield take(authAction.signOutPending.type);
+    if (payloadTokenAfterSign) {
+      yield take(authAction.signOutPending.type);
 
-    yield call(handleSignOut);
+      yield call(handleSignOut);
+    }
   }
 }
 

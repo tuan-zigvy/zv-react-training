@@ -40,22 +40,25 @@ function HomePage() {
   const handleChangeValueCreate = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValueCreateTask(e.target.value);
 
-  React.useEffect(() => {
-    if (statusNetWork) {
-      const taskReady = tasksPending.filter((task) => task.status === 'Ready');
-      if (taskReady.length > 0)
-        dispatch(taskAction.createTasksPending(taskReady.map((task) => task.name)));
-    }
-
-    if (!statusNetWork) {
-      dispatch(taskAction.deleteTasksIsOffline());
-    }
-  }, [statusNetWork]);
+  // React.useEffect(() => {
+  //   if (statusNetWork) {
+  //     const taskReady = tasksPending.filter((task) => task.status === 'Ready');
+  //     if (taskReady.length > 0)
+  //       dispatch(taskAction.createTasksPending(taskReady.map((task) => task.name)));
+  //   }
+  // }, [statusNetWork]);
 
   return (
     <div style={style}>
-      <Search statusNetWork={statusNetWork} />
       <TaskTemplate />
+      <div
+        style={{ borderTop: '2px solid black', paddingTop: '12px', width: '100%' }}
+      ></div>
+      <Search statusNetWork={statusNetWork} />
+
+      <div
+        style={{ borderTop: '2px solid black', paddingTop: '12px', width: '100%' }}
+      ></div>
       <TaskList tasks={tasks} />
 
       <form onSubmit={handleSubmit}>

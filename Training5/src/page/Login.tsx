@@ -30,10 +30,10 @@ function Login() {
   }, [isSignIn]);
 
   const handleChangePw = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setInputEmail(event.target.value);
+    setInputPassword(event.target.value);
 
   const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setInputPassword(event.target.value);
+    setInputEmail(event.target.value);
 
   return (
     <div

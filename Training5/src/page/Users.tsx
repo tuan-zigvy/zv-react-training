@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/store';
 import { userAction } from '../reducer/user/userSlice';
 import { shallowEqual } from 'react-redux';
@@ -15,7 +15,7 @@ function Users() {
   );
   const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (role === 'Admin') dispatch(userAction.getUsersPending());
   }, []);
 

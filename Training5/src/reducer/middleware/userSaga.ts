@@ -1,11 +1,12 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, fork, put, take, takeLatest } from 'redux-saga/effects';
+import { call, fork, put, select, take, takeLatest } from 'redux-saga/effects';
 import { ILogin, IUserRes } from '../../util/interface';
 import { decoded, setAllCookie, setHeaders } from '../../util/jwt';
 import { fetchGetMe, fetchGetUsers, fetchLogin } from '../../app/apiUser';
 import { userAction } from '../user/userSlice';
 import { authAction } from '../auth/authSlice';
 import Cookies from 'js-cookie';
+import { RootState } from '../../app/store';
 
 function* handleSignIn(action: PayloadAction<ILogin>) {
   try {
@@ -67,9 +68,12 @@ function* watchSignInFlow() {
       yield call(handleSignIn, action);
     }
 
-    yield take(authAction.signOutPending.type);
+    const payloadTokenAfterSign = decoded(Cookies.get('token'));
+    if (payloadTokenAfterSign) {
+      yield take(authAction.signOutPending.type);
 
-    yield call(handleSignOut);
+      yield call(handleSignOut);
+    }
   }
 }
 

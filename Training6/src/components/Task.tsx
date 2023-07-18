@@ -14,7 +14,7 @@ function TaskList({ tasks }: { tasks: ITaskRes[] }) {
     dispatch(taskAction.deleteTaskPending(id));
   }
   return (
-    <div style={{ borderTop: '1px solid black', paddingTop: '12px' }}>
+    <div>
       <h4 style={{ textAlign: 'center' }}>Tasks</h4>
       {tasks.length > 0 &&
         tasks.map((task, i) => (
@@ -32,12 +32,14 @@ function TaskList({ tasks }: { tasks: ITaskRes[] }) {
               <p>Task:{task.name}</p>
               <p>Status :{task.status ? 'success' : 'error'}</p>
             </div>
-            <button
-              style={{ width: 50, height: 30, fontSize: 10 }}
-              onClick={() => handleUpdateStatus(i)}
-            >
-              Update Success
-            </button>
+            {!task.status && (
+              <button
+                style={{ width: 80, height: 35, fontSize: 10 }}
+                onClick={() => handleUpdateStatus(i)}
+              >
+                Re-update Success
+              </button>
+            )}
 
             <div
               style={{ width: 40, paddingTop: '15px', paddingLeft: 15 }}

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/store';
 import { todoAction } from '../reducer/todo/todoSlice';
 import { MdClose } from 'react-icons/md';
@@ -12,14 +12,14 @@ const style: React.CSSProperties = {
 };
 
 function HomePage() {
-  const [valueCreateTodo, setValueCreateTodo] = React.useState<string>('');
+  const [valueCreateTodo, setValueCreateTodo] = useState<string>('');
 
-  const [isCompleted, setIsCompleted] = React.useState<boolean>(false);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const { todos } = useAppSelector((state) => state.todo);
   const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(todoAction.getTodosPending());
   }, []);
 

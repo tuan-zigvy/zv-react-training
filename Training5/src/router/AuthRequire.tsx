@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useAppDispatch, useAppSelector } from '../app/store';
 import { shallowEqual } from 'react-redux';
@@ -9,6 +9,7 @@ import { userAction } from '../reducer/user/userSlice';
 import { authAction } from '../reducer/auth/authSlice';
 
 function AuthRequire({ children }: { children: React.ReactNode | React.ReactNode[] }) {
+  const payLoadToken = decoded(Cookies.get('token'));
   const { isSignIn, isInitialState } = useAppSelector(
     (state) => ({
       isSignIn: state.auth.isSignIn,
@@ -18,8 +19,7 @@ function AuthRequire({ children }: { children: React.ReactNode | React.ReactNode
   );
   const location = useLocation();
   const dispatch = useAppDispatch();
-  React.useEffect(() => {
-    const payLoadToken = decoded(Cookies.get('token'));
+  useEffect(() => {
     if (payLoadToken) {
       setHeaders();
       dispatch(userAction.getMePending(payLoadToken.id));
@@ -27,6 +27,22 @@ function AuthRequire({ children }: { children: React.ReactNode | React.ReactNode
       dispatch(authAction.setIsInitialState());
     }
   }, []);
+
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+
+    if (isSignIn && payLoadToken) {
+      timeout = setTimeout(() => {
+        dispatch(authAction.signOutPending());
+      }, Math.round((payLoadToken.exp as number) * 1000 - Date.now()));
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [isSignIn]);
 
   if (!isInitialState)
     return (
